@@ -1,32 +1,38 @@
-package com.springreact.fullstack.entities;
+package com.springreact.fullstack.dto;
 
 import java.time.LocalDate;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import com.springreact.fullstack.entities.Sale;
 
-@Entity
-@Table(name = "tb_sales")
-public class Sale {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+public class SaleDTO {
+	
 	private Long id;
 	private Integer deals;
 	private Integer visited;
 	private Double amount;
 	private LocalDate date;
 	
-	@ManyToOne
-	@JoinColumn(name = "seller_id")
-	private Seller seller;
+	private SellerDTO seller;
+
+	public SaleDTO() {
+	}
+
+	public SaleDTO(Long id, Integer deals, Integer visited, Double amount, LocalDate date, SellerDTO seller) {
+		this.id = id;
+		this.deals = deals;
+		this.visited = visited;
+		this.amount = amount;
+		this.date = date;
+		this.seller = seller;
+	}
 	
-	public Sale() {
+	public SaleDTO(Sale entity) {
+		id = entity.getId();
+		visited = entity.getVisited();
+		deals = entity.getDeals();
+		amount = entity.getAmount();
+		date = entity.getDate();
+		seller = new SellerDTO(entity.getSeller());
 	}
 
 	public Long getId() {
@@ -69,13 +75,14 @@ public class Sale {
 		this.date = date;
 	}
 
-	public Seller getSeller() {
+	public SellerDTO getSeller() {
 		return seller;
 	}
 
-	public void setSeller(Seller seller) {
+	public void setSeller(SellerDTO seller) {
 		this.seller = seller;
 	}
-
 	
+	
+
 }
